@@ -1,5 +1,5 @@
 {
-    "single_digit": {
+    "ones": {
         "1": "ONE",
         "2": "TWO",
         "3": "THREE",
@@ -23,13 +23,21 @@
         "19": "NINETEEN"
     },
     "tens": {
-        "20": "TWENTY",
-        "30": "THIRTY",
-        "40": "FORTY",
-        "50": "FIFTY",
-        "60": "SIXTY",
-        "70": "SEVENTY",
-        "80": "EIGHTY",
-        "90": "NINETY"
+        "1": "TEN",
+        "2": "TWENTY",
+        "3": "THIRTY",
+        "4": "FORTY",
+        "5": "FIFTY",
+        "6": "SIXTY",
+        "7": "SEVENTY",
+        "8": "EIGHTY",
+        "9": "NINETY"
+    },
+    "zeros": {
+        "2": "HUNDRED",
+        "3": "THOUSAND",
+        "6": "MILLION",
+        "9": "BILLION",
+        "12": "TRILLION"
     }
 }
