@@ -4,26 +4,28 @@ with open("./map.json", encoding="UTF-8") as f:
     data = json.load(f)
 
 #mapping
-single_digit = data["ones"]
+ones = data["ones"]
 double_digit = data["double_digit"]
 tens = data["tens"]
 zeros = data["zeros"]
 
-
+# class Cents:
+#     def __init__():
+#         pass
+    
 def convert_cents(x: str):
     """Convert decimal part of a number to words."""
     if len(x) > 2:
         raise ValueError("Please round number to 2 decimal places")
     if len(x) == 1: #e.g. .2
         return f"{tens[x]} CENTS"
-    cents_worded = ""
-    if x[0] == "0": #e.g. .01
-        cents_worded += single_digit[x[1]]
-    elif x[0] == "1": #e.g. .12
-        cents_worded += double_digit[x]
-    
+    values = []
+    values.append(tens[x[0]])
+    values.append(ones[x[1]])
+    cents_worded = " ".join(values)
+    if x[0] == "1": #e.g. .11, .14
+        cents_worded = double_digit[x]
     return f"{cents_worded} CENTS"
-    
     
 
 def convert_dollars(x: str):
@@ -43,6 +45,6 @@ def convert_money(x: str):
             print(f"{x} is not a valid number")
 
 if __name__ == "__main__":
-    # user_input = input("Please input number: ")
-    # print(convert_cents(user_input))
+    user_input = input("Please input number: ")
+    print(convert_cents(user_input))
     pass
