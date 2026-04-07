@@ -30,6 +30,7 @@ def convert_cents(x: str):
 
 def convert_dollars(x: str):
     """Convert whole part of number to words."""
+    
     pass
 
 def convert_money(x: str):
