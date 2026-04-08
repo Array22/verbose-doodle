@@ -36,6 +36,7 @@
     "zeros": {
         "2": "HUNDRED",
         "3": "THOUSAND",
+        "5": "HUNDRED THOUSAND",
         "6": "MILLION",
         "9": "BILLION",
         "12": "TRILLION"
