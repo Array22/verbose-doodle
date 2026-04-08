@@ -30,20 +30,19 @@ def convert_cents (x: str):
 
 def convert_dollars(x: str):
     """Convert whole part of number to dollars in words."""
-    reversed = x[::-1] #reverse indices, e.g 123 -> 321
-    i = len(reversed) - 1
+    y = x[::-1] #reverse indices, e.g 123 -> 321
+    i = len(y) - 1
     words_list = []
     while i > -1:
         if i % 3 == 1:
             # print(reversed[i-1:i+1][::-1])
-            words_list.append(convert_2digit(reversed[i-1:i+1][::-1]))
+            words_list.append(convert_2digit(y[i-1:i+1][::-1]))
             j = i - 2
         else:
-            words_list.append(ones[reversed[i]]) #append value
+            words_list.append(ones[y[i]]) #append value
         if i > 1:
             words_list.append(zeros[str(i)]) # append zeroes based on index
             words_list.append("AND")
-
         i -= 1
         if i+1 % 3 == 1:
             i = j
@@ -75,5 +74,3 @@ if __name__ == "__main__":
     # text = reversed[0:2][::-1]
     # print(text)
     # print(convert_2digit(text))
-
-    pass
