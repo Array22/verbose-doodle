@@ -22,6 +22,10 @@ def convert_2digit(x: str):
     if x[0] == "1": #e.g. .11, .14
         words = double_digit[x]
     return words
+
+def convert_3digit(x: str):
+    """Convert a 3 digit number to words"""
+    pass
     
 def convert_cents (x: str):
     """Convert decimal part of a number to cents in words"""
@@ -47,7 +51,7 @@ def convert_dollars(x: str):
         if i+1 % 3 == 1:
             i = j
     words = " ".join(words_list)
-    return words
+    return f"{words} DOLLARS"
 
 def convert_money(x: str):
     """Convert a number to monetary value in words."""
@@ -60,17 +64,14 @@ def convert_money(x: str):
             part_dollars, part_cents = x.strip().strip("0").split(".")
         except ValueError:
             print(f"{x} is not a valid number")
-    a = convert_cents(part_cents)
-    b = convert_dollars(part_dollars)
-    return f"{a} AND {b}"
+        a = convert_dollars(part_dollars)
+        b = convert_cents(part_cents)
+        value = f"{a} AND {b}"
+    else:
+        value = convert_dollars(x)
+    return value
 
 if __name__ == "__main__":
     user_input = input("Please input number: ")
-    # # # print(convert_cents(user_input))
-    print(convert_dollars(user_input))
-
-    # x = "123"
-    # reversed = "321"
-    # text = reversed[0:2][::-1]
-    # print(text)
-    # print(convert_2digit(text))
+    # # # # print(convert_cents(user_input))
+    print(convert_money(user_input))
