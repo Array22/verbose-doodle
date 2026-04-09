@@ -12,7 +12,7 @@ zeros = data["zeros"]
 def convert_2digit(x: str):
     """Convert a 2 digit number to words."""
     if len(x) > 2:
-        raise ValueError("Please round number to 2 decimal places")
+        raise ValueError("Input is not a 2-digit number")
     if len(x) == 1: #e.g. .2
         return tens[x]
     values = []
@@ -25,10 +25,18 @@ def convert_2digit(x: str):
 
 def convert_3digit(x: str):
     """Convert a 3 digit number to words"""
-    pass
+    if len(x) != 3:
+        raise ValueError("Input is not a 3-digit number")
+    values = []
+    values.append(f"{ones[x[0]]} HUNDRED AND")
+    values.append(convert_2digit(x[1:3]))
+    words = " ".join(values)
+    return words
     
 def convert_cents (x: str):
     """Convert decimal part of a number to cents in words"""
+    if len(x) > 2:
+        raise ValueError("Please round number to 2 decimal places")
     words = convert_2digit(x)
     return f"{words} CENTS"
 
@@ -73,5 +81,5 @@ def convert_money(x: str):
 
 if __name__ == "__main__":
     user_input = input("Please input number: ")
-    # # # # print(convert_cents(user_input))
-    print(convert_money(user_input))
+    # # # # # print(convert_cents(user_input))
+    print(convert_3digit(user_input))
