@@ -47,7 +47,8 @@ def convert_cents (x: str):
 
 def convert_dollars(x: str):
     """Convert whole part of number to dollars in words."""
-    i = len(x) - 1
+    length = len(x) - 1
+    i = length
     values = []
     while i > -1:
         if i % 3 == 2:
@@ -59,11 +60,13 @@ def convert_dollars(x: str):
         else:
             values.append(ones[x[i]])
             i -= 1
-        values.append(zeros[str(i+1)])
+        if i > 0:
+            values.append(zeros[str(length - i)])
     words = " ".join(values[::-1]).strip()
     final_words = f"{words} DOLLARS"
     if words == "ONE":
         final_words = f"{words} DOLLAR"
+    # print(f"Values: {values}, Words: {words}")
     return final_words
 
 def convert_money(x: str):
@@ -92,7 +95,7 @@ def convert_money(x: str):
 if __name__ == "__main__":
     user_input = input("Please input number: ")
     # # # # # # print(convert_cents(user_input))
-    print(convert_dollars(user_input))
+    print(convert_money(user_input))
     
     
     # a = "1."
