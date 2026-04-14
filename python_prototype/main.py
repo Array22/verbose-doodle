@@ -5,7 +5,6 @@ with open("./map.json", encoding="UTF-8") as f:
 
 #mapping
 ones = data["ones"]
-double_digit = data["double_digit"]
 tens = data["tens"]
 zeros = data["zeros"]
 
@@ -23,7 +22,7 @@ def convert_2digit(x: str):
     else:
         words = "-".join(values)
     if x[0] == "1" or x == "00": #e.g. .11, .14
-        words = double_digit[x]
+        words = ones[x]
     return words
 
 def convert_3digit(x: str):
