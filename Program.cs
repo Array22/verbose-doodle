@@ -1,14 +1,42 @@
 ﻿using System.Text.Json;
+using System.Text;
 
 // var jsonObject = File.ReadAllText("map.json");
-// var map = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string,string>>>(jsonObject);
-Input.TestFunction();
+// var NumMap = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string,string>>>(jsonObject);
+// Input.TestFunction();
+
+StringBuilder builder = new();
+builder.Append("A");
+builder.Append("B");
+Console.WriteLine(builder.ToString());
 
 
 // Money test = new() {Value = "23"};
 // Console.WriteLine(test.Cents);
 
+class Input
+{
+    public static void TestFunction(){
+        Console.Write("Please input a value: ");
+        string value = Console.ReadLine() ?? "";
+        if (float.TryParse(value, out float result) == false)
+        {
+            throw new ArgumentException("Please input a valid number.");
+        }
+        string[] word = value.Split('.');
+        string a = word[0]; string b = word[1];
+        Console.WriteLine($"{a} AND {b}");
 
+    }
+}
+class Money {
+
+    public float Value {get; set;} = 0;
+    public static string Convert2n(string value, Dictionary<string, Dictionary<string,string>> map) {
+        string a = map["ones"][value];
+        return a;
+    }
+}
 class DigitMap
 { 
     public required Dictionary<string, string> MapOnes {get; set;}
@@ -16,28 +44,3 @@ class DigitMap
     public required Dictionary<string, string> MapZeros {get; set;}
 }
 
-class Money {
-
-    public float Value {get; set;} = 0;
-    public string Cents {get; set;} = "";
-    public string ConvertCents() {
-        throw new NotImplementedException();
-    }
-}
-
-class Input
-{
-    public static void TestFunction(){
-        Console.Write("Please input a value: ");
-        string Value = Console.ReadLine() ?? "";
-        if (float.TryParse(Value, out float result) == false)
-        {
-            throw new ArgumentException("Please input a valid number.");
-        }
-        Console.WriteLine(result);
-        string[] Word = Value.Split('.');
-        string a = Word[0]; string b = Word[1];
-        Console.WriteLine($"{a} AND {b}");
-
-    }
-}
