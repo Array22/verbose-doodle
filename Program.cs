@@ -31,8 +31,15 @@ class Input
 }
 class Money {
 
-    public float Value {get; set;} = 0;
+    public float Cash {get; set;} = 0;
+    
     public static string Convert2n(string value, Dictionary<string, Dictionary<string,string>> map) {
+        if (value.Length > 2){
+            throw new ArgumentException("Input is not a 2-digit number");
+        }
+        if (value.Length == 1){
+            return map["tens"][value];
+        }
         string a = map["ones"][value];
         return a;
     }
