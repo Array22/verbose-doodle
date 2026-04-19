@@ -11,7 +11,7 @@ zeros = data["zeros"]
 def convert_2digit(x: str):
     """Convert a 2 digit number to words."""
     if len(x) > 2:
-        raise ValueError("Input is not a 2-digit number")
+        raise ValueError("Attempting to Convert a non-2-digit number")
     if len(x) == 1: #e.g. .2
         return tens[x]
     values = []
@@ -94,7 +94,7 @@ def convert_money(x: str):
 if __name__ == "__main__":
     user_input = input("Please input number: ")
     # # # # # # print(convert_cents(user_input))
-    print(convert_money(user_input))
+    print(convert_dollars(user_input))
     
     
     # a = "1."
