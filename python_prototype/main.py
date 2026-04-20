@@ -46,22 +46,23 @@ def convert_cents (x: str):
 
 def convert_dollars(x: str):
     """Convert whole part of number to dollars in words."""
-    length = len(x) - 1
-    i = length
+    i = 0
+    i_rev = len(x) - 1 #reverse index
     values = []
-    while i > -1:
-        if i % 3 == 2:
-            values.append(convert_3digit(x[i-2:i+1]))
-            i -= 3
-        elif i % 3 == 1:
-            values.append(convert_2digit(x[i-1:i+1]))
-            i -= 2
+    while i < len(x):
+        if i_rev % 3 == 2:
+            values.append(convert_3digit(x[i:i+3]))
+            i += 3
+        elif i_rev % 3 == 1:
+            values.append(convert_2digit(x[i:i+2]))
+            i += 2
         else:
             values.append(ones[x[i]])
-            i -= 1
-        if i > 0:
-            values.append(zeros[str(length - i)])
-    words = " ".join(values[::-1]).strip()
+            i += 1
+        i_rev = len(x) - 1 - i
+        if i_rev > 0 and (i_rev+1) % 3 == 0:
+            values.append(zeros[str(i_rev+1)])
+    words = " ".join(values[:]).strip()
     final_words = f"{words} DOLLARS"
     if words == "ONE":
         final_words = f"{words} DOLLAR"
@@ -93,10 +94,4 @@ def convert_money(x: str):
 
 if __name__ == "__main__":
     user_input = input("Please input number: ")
-    # # # # # # print(convert_cents(user_input))
     print(convert_dollars(user_input))
-    
-    
-    # a = "1."
-    # b, c = a.strip(".")
-    # print(f"{b} AND {c}")

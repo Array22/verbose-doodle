@@ -75,7 +75,30 @@ class Money {
 
     public static string ConvertDollars(string num)
     {
-        
+        int i = num.Length;
+        List<string> values = [];
+        while (i > -1)
+        {
+            if (i % 3 == 2)
+            {
+                values.Add(Convert3n(num[(i-2)..(i+1)]));
+                i -= 3;
+            }
+            else if (i % 3 == 1)
+            {
+                values.Add(Convert2n(num[(i-1)..(i+1)]));
+                i -= 2;
+            }
+            else
+            {
+                values.Add(OnesMap[num[i].ToString()]);
+                i -= 1;
+            }
+            if (i > 0)
+            {
+                values.Add(ZerosMap[])
+            }
+        }
     }
 }
 
