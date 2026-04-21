@@ -27,9 +27,11 @@ def convert_3digit(x: str):
     """Convert a 3 digit number to words"""
     if len(x) != 3:
         raise ValueError("Input is not a 3-digit number")
-    values = []
-    values.append(f"{ones[x[0]]} HUNDRED AND")
-    values.append(convert_2digit(x[1:3]))
+    words = f"{ones[x[0]]} HUNDRED"
+    if x[1:3] == "00":
+        return words
+    words_b = convert_2digit(x[1:3])
+    values = [words, "AND", words_b]
     words = " ".join(values)
     return words
 

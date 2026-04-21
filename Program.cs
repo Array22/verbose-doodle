@@ -1,37 +1,33 @@
 ﻿using System.Text.Json;
 
 // Input.TestFunction();
-class Program
-{
-    public static void Main()
-    {
-        var map = Setup.StartMaps();
-        Money.StartMaps(map);
-        var wallet = new Money("12");
-        Console.WriteLine(wallet.ConvertMoney());
-    }
-}
+
+var wallet = new Money("1000001");
+Console.WriteLine(wallet.ConvertMoney());
+
 // Money test = new() {Cash = "23"};
 // Console.WriteLine(test.Cents);
 
-// class Input
-// {
-//     public static void Start(){
-//         Console.Write("Please input a value: ");
-//         string value = Console.ReadLine() ?? "";
-//         if (float.TryParse(value, out float result) == false)
-//         {
-//             throw new ArgumentException("Please input a valid number.");
-//         }
-//         string[] word = value.Split('.');
-//         string a = word[0]; string b = word[1];
-//         Console.WriteLine($"{a} AND {b}");
+class Input
+{
+    public static void Start(){
+        Console.Write("Please input a value: ");
+        string value = Console.ReadLine() ?? "";
+        string[] word = value.Split('.');
+        string a = word[0]; string b = word[1];
+        Console.WriteLine($"{a} AND {b}");
 
-//     }
-// }
+    }
+}
 class Money {
 
     public string Cash {get; set;}
+
+    static Money()
+    {
+        var map = Setup.StartMaps();
+        StartMaps(map);
+    }
 
     public Money(string num)
     {
@@ -87,11 +83,15 @@ class Money {
         {
             throw new ArgumentException("Input is not a 3-digit number");
         }
-        List<string> values = [];
-        values.Add($"{OnesMap[num]} HUNDRED AND");
-        values.Add(Convert2n(num[1..3]));
-        string words = string.Join(" ", values);
-        return words;
+        string words = $"{OnesMap[num[0].ToString()]} HUNDRED";
+        if (num[1..3] == "00")
+        {
+            return words;
+        }
+        string words_b = Convert2n(num[1..3]);
+        List<string> values = [words, "AND", words_b];
+        string words_f = string.Join(" ", values);
+        return words_f;
     }
 
     private static string ConvertCents(string num)
@@ -113,45 +113,56 @@ class Money {
 
     private static string ConvertDollars(string num)
     {
+        bool ZerosMapCheck = false;
         int i = 0;
         int i_rev = num.Length - 1;
         List<string> values = [];
         while (i < num.Length)
         {
-            if (i_rev % 3 == 2 && num[i..(i+3)] != "000")
+            if (i_rev % 3 == 2)
             {
-                values.Add(Convert3n(num[i..(i+3)]));
+                if (num[i..(i+3)] != "000")
+                {
+                    values.Add(Convert3n(num[i..(i+3)]));
+                    ZerosMapCheck = true;
+                }
                 i += 3;
             }
-            else if (i_rev % 3 == 1 && num[i..(i+2)] != "00")
+            else if (i_rev % 3 == 1)
             {
-                values.Add(Convert2n(num[i..(i+2)]));
+                if (num[i..(i+2)] != "00")
+                {
+                    values.Add(Convert2n(num[i..(i+2)]));
+                    ZerosMapCheck = true;
+                }
                 i += 2;
             }
             else
             {
                 values.Add(OnesMap[num[i].ToString()]);
+                ZerosMapCheck = true;
                 i += 1;
             }
             i_rev = num.Length - 1 - i;
-            if (i > 0 && (i_rev+1) % 3 == 0)
+            if (i > 0 && (i_rev+1) % 3 == 0 && ZerosMapCheck)
             {
                 values.Add(ZerosMap[(i_rev + 1).ToString()]);
+                ZerosMapCheck = false;
             }
         }
         string words = string.Join(" ", values);
-        if (words == "ONE")
+        if (words.Trim() == "ONE")
         {
             return "ONE DOLLAR";
         }
-        return words;
+        return $"{words}DOLLARS";
     }
 
     public string ConvertMoney()
     {
         string[] words = Cash.Split('.');
         string dollars = ConvertDollars(words[0]);
-        if (words[1] is not null)
+        if (words.Length > 1)
         {
             string cents = ConvertCents(words[1]);
             return $"{dollars} AND {cents}";
