@@ -1,15 +1,8 @@
 ﻿using System.Text.Json;
-using System.Text;
-
 
 // Input.TestFunction();
+// Setup.Start();
 
-// StringBuilder builder = new();
-// builder.Append("A");
-// builder.Append("B");
-// Console.WriteLine(builder.ToString());
-
-Setup.Start();
 // Money test = new() {Value = "23"};
 // Console.WriteLine(test.Cents);
 
@@ -37,21 +30,32 @@ class Money {
     private static Dictionary<string,string> ZerosMap {get;set;} = null!;
 
     
-    public static string Convert2n(string num) {
-        if (num.Length > 2){
+    private static string Convert2n(string num) {
+        if (num.Length != 2){
             throw new ArgumentException("Input is not a 2-digit number");
         }
-        if (num.Length == 1){
-            return TensMap[num];
-        }
+        string part0 = num[0].ToString();
+        string part1 = num[1].ToString();
         List<string> values = [];
-        
-
-        string a = OnesMap[num];
-        return a;
+        values.Add(TensMap[part0]);
+        values.Add(OnesMap[part1]);
+        string words = "";
+        if (part0 == "0")
+        {
+            words = OnesMap[part1];
+        }
+        else
+        {
+            words = string.Join("-",values);
+        }
+        if (part0 == "1")
+        {
+            words = OnesMap[num];
+        }
+        return words;
     }
 
-    public static string Convert3n(string num)
+    private static string Convert3n(string num)
     {
         if (num.Length != 3)
         {
@@ -64,41 +68,69 @@ class Money {
         return words;
     }
 
-    public static string ConvertCents(string num)
+    private static string ConvertCents(string num)
     {
         if (num.Length > 2){
             throw new ArgumentException("Please round number to 2 decimal places");
         }
-        string words = Convert2n(num);
+        string words = "";
+        if (num.Length == 1)
+        {
+            words = TensMap[num];
+        }
+        else
+        {
+            words = Convert2n(num);
+        }
         return $"{words} CENTS";
     }
 
-    public static string ConvertDollars(string num)
+    private static string ConvertDollars(string num)
     {
-        int i = num.Length;
+        int i = 0;
+        int i_rev = num.Length - 1;
         List<string> values = [];
-        while (i > -1)
+        while (i < num.Length)
         {
-            if (i % 3 == 2)
+            if (i_rev % 3 == 2 && num[i..(i+3)] != "000")
             {
-                values.Add(Convert3n(num[(i-2)..(i+1)]));
-                i -= 3;
+                values.Add(Convert3n(num[i..(i+3)]));
+                i += 3;
             }
-            else if (i % 3 == 1)
+            else if (i_rev % 3 == 1 && num[i..(i+2)] != "00")
             {
-                values.Add(Convert2n(num[(i-1)..(i+1)]));
-                i -= 2;
+                values.Add(Convert2n(num[i..(i+2)]));
+                i += 2;
             }
             else
             {
                 values.Add(OnesMap[num[i].ToString()]);
-                i -= 1;
+                i += 1;
             }
-            if (i > 0)
+            i_rev = num.Length - 1 - i;
+            if (i > 0 && (i_rev+1) % 3 == 0)
             {
-                values.Add(ZerosMap[])
+                values.Add(ZerosMap[(i_rev + 1).ToString()]);
             }
         }
+        string words = string.Join(" ", values);
+        if (words == "ONE")
+        {
+            return "ONE DOLLAR";
+        }
+        return words;
+    }
+
+    public static string ConvertMoney(string value)
+    {
+        string[] words = value.Split('.');
+        string dollars = ConvertDollars(words[0]);
+        if (words[1] is not null)
+        {
+            string cents = ConvertCents(words[1]);
+            return $"{dollars} AND {cents}";
+        }
+        return dollars;
     }
 }
 

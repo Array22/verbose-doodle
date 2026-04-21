@@ -10,10 +10,8 @@ zeros = data["zeros"]
 
 def convert_2digit(x: str):
     """Convert a 2 digit number to words."""
-    if len(x) > 2:
+    if len(x) != 2:
         raise ValueError("Attempting to Convert a non-2-digit number")
-    if len(x) == 1: #e.g. .2
-        return tens[x]
     values = []
     values.append(tens[x[0]])
     values.append(ones[x[1]])
@@ -21,7 +19,7 @@ def convert_2digit(x: str):
         words = ones[x[1]]
     else:
         words = "-".join(values)
-    if x[0] == "1" or x == "00": #e.g. .11, .14
+    if x[0] == "1": #e.g. 11, 14
         words = ones[x]
     return words
 
@@ -39,9 +37,10 @@ def convert_cents (x: str):
     """Convert decimal part of a number to cents in words"""
     if len(x) > 2:
         raise ValueError("Please round number to 2 decimal places")
-    words = convert_2digit(x)
-    if words == "":
-        return None
+    if len(x) == 1: #e.g. .2
+        words = tens[x]
+    else:
+        words = convert_2digit(x)
     return f"{words} CENTS"
 
 def convert_dollars(x: str):
@@ -50,10 +49,10 @@ def convert_dollars(x: str):
     i_rev = len(x) - 1 #reverse index
     values = []
     while i < len(x):
-        if i_rev % 3 == 2:
+        if i_rev % 3 == 2 and x[i:i+3] != "000":
             values.append(convert_3digit(x[i:i+3]))
             i += 3
-        elif i_rev % 3 == 1:
+        elif i_rev % 3 == 1 and x[i:i+2] != "00":
             values.append(convert_2digit(x[i:i+2]))
             i += 2
         else:
@@ -94,4 +93,4 @@ def convert_money(x: str):
 
 if __name__ == "__main__":
     user_input = input("Please input number: ")
-    print(convert_dollars(user_input))
+    print(convert_money(user_input))
