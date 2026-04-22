@@ -95,4 +95,4 @@ def convert_money(x: str):
 
 if __name__ == "__main__":
     user_input = input("Please input number: ")
-    print(convert_money(user_input))
+    print(convert_2digit(user_input))

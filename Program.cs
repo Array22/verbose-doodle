@@ -2,7 +2,7 @@
 
 // Input.TestFunction();
 
-var wallet = new Money("1000001");
+var wallet = new Money("000000");
 Console.WriteLine(wallet.ConvertMoney());
 
 // Money test = new() {Cash = "23"};
@@ -83,13 +83,19 @@ class Money {
         {
             throw new ArgumentException("Input is not a 3-digit number");
         }
-        string words = $"{OnesMap[num[0].ToString()]} HUNDRED";
+        string part1 = OnesMap[num[0].ToString()];
+        string words = $"{part1} HUNDRED";
         if (num[1..3] == "00")
         {
             return words;
         }
-        string words_b = Convert2n(num[1..3]);
-        List<string> values = [words, "AND", words_b];
+        string part2 = Convert2n(num[1..3]);
+        List<string> values = [];
+        if (part1 != "ZERO")
+        {
+            values.Add($"{words} AND");
+        }
+        values.Add(part2);
         string words_f = string.Join(" ", values);
         return words_f;
     }
@@ -144,7 +150,7 @@ class Money {
                 i += 1;
             }
             i_rev = num.Length - 1 - i;
-            if (i > 0 && (i_rev+1) % 3 == 0 && ZerosMapCheck)
+            if (i_rev > 0 && (i_rev+1) % 3 == 0 && ZerosMapCheck)
             {
                 values.Add(ZerosMap[(i_rev + 1).ToString()]);
                 ZerosMapCheck = false;
@@ -155,7 +161,7 @@ class Money {
         {
             return "ONE DOLLAR";
         }
-        return $"{words}DOLLARS";
+        return $"{words} DOLLARS";
     }
 
     public string ConvertMoney()
