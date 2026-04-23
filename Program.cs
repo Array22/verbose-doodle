@@ -1,8 +1,22 @@
 ﻿using System.Text.Json;
 
-var wallet = new Money("00120.00");
-Console.WriteLine(wallet.ConvertMoney());
+// var wallet = new Money("00120.00");
+// Console.WriteLine(wallet.ConvertMoney());
 
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.MapPost("/money", (MoneyRequest req) =>
+{
+    var request = new Money(req.Amount);
+    return request.ConvertMoney();
+});
+
+app.Run();
+
+record MoneyRequest(string Amount);
 class Money {
 
     public string Cash {get; set;}

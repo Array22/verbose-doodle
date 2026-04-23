@@ -11,23 +11,24 @@
 <main class="main">
     <p>Example: 1 => ONE DOLLAR</p>
     Enter
-    <input id="user-input">
+    <input id="user-input" placeholder="amount">
     <button onclick="doThis()" id="input-run">run</button>
     <div>
         Answer:
-        <p id="response" placeholder="response"></p>
+        <p id="response"></p>
     </div>
 </main>
 </body>
 <script>
     async function doThis(){
         const inputAmount = document.querySelector("#user-input").value;
-        const response = await fetch("/api/money", {
+        const response = await fetch("/money", {
             method: "POST",
-            headers:{"Content-Type":"text/plain"},
-            body: inputAmount
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({Amount: inputAmount})
         });
         const result = await response.text()
+        document.querySelector("#response").innerText = result
     };
 </script>
 </html>
