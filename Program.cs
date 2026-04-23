@@ -1,25 +1,8 @@
 ﻿using System.Text.Json;
 
-// Input.TestFunction();
-
-var wallet = new Money("0.01");
+var wallet = new Money("1.50");
 Console.WriteLine(wallet.ConvertMoney());
 
-
-// Money test = new() {Cash = "23"};
-// Console.WriteLine(test.Cents);
-
-class Input
-{
-    public static void Start(){
-        Console.Write("Please input a value: ");
-        string value = Console.ReadLine() ?? "";
-        string[] word = value.Split('.');
-        string a = word[0]; string b = word[1];
-        Console.WriteLine($"{a} AND {b}");
-
-    }
-}
 class Money {
 
     public string Cash {get; set;}
@@ -61,7 +44,10 @@ class Money {
         string part1 = num[1].ToString();
         List<string> values = [];
         values.Add(TensMap[part0]);
-        values.Add(OnesMap[part1]);
+        if (part1 != "0")
+        {
+            values.Add(OnesMap[part1]);
+        }
         string words = "";
         if (part0 == "0")
         {
@@ -115,7 +101,12 @@ class Money {
         {
             words = Convert2n(num);
         }
-        return $"{words} CENTS";
+        string cent = "CENTS";
+        if (words == "ONE")
+        {
+            cent = "CENT";
+        }
+        return $"{words} {cent}";
     }
 
     private static string ConvertDollars(string num)
