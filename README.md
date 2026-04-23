@@ -5,3 +5,5 @@ To build:
 
 To test (Test files are in Test.cs):
 1. dotnet test
+
+Solution Explanation in Word file.
