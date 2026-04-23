@@ -1,3 +1,6 @@
+"""DRAFT version only. C# version is more updated as I switched to that one
+after becoming more comfortable with that language"""
+
 import json
 
 with open("./map.json", encoding="UTF-8") as f:

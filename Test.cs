@@ -3,7 +3,7 @@ using Xunit;
 
 public class MoneyTests
 {
-[Theory]
+[Theory] //Note: Following tests were AI-generated then manually inspected.
 // --- Single Digits & Tens ---
 [InlineData("1", "ONE DOLLAR")]
 [InlineData("2", "TWO DOLLARS")]
@@ -43,4 +43,4 @@ public void ConvertMoney_ReturnCorrectWords(string input, string expected)
     }
 }
 
-//new method, Assert.Throws, check 0100, check negatives
+//TODO: Assert.Throws, check negatives

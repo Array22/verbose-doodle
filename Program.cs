@@ -1,8 +1,11 @@
 ﻿using System.Text.Json;
+using System.Diagnostics;
 
+//Quick manual testing.
 // var wallet = new Money("00120.00");
 // Console.WriteLine(wallet.ConvertMoney());
 
+//Start application
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 app.UseDefaultFiles();
@@ -10,18 +13,31 @@ app.UseStaticFiles();
 
 app.MapPost("/money", (MoneyRequest req) =>
 {
-    var request = new Money(req.Amount);
-    return request.ConvertMoney();
+    try
+    {
+        var request = new Money(req.Amount);
+        return Results.Ok(request.ConvertMoney());
+    }
+    catch
+    {
+        return Results.BadRequest("Please enter a valid number.");
+    }    
 });
 
-app.Run();
+app.Start();
+Process.Start(new ProcessStartInfo
+{
+    FileName = "http://localhost:5000/index.html",
+    UseShellExecute = true
+});
+app.WaitForShutdown();
 
 record MoneyRequest(string Amount);
 class Money {
-
+    //Used for user input
     public string Cash {get; set;}
 
-    static Money()
+    static Money() //Initialise maps upon construction
     {
         var map = Setup.StartMaps();
         StartMaps(map);
@@ -35,7 +51,7 @@ class Money {
         }
         Cash = num;
     }
-
+    //MAPS
     private static Dictionary<string,string> OnesMap {get;set;} = null!;
     private static Dictionary<string,string> TensMap {get;set;} = null!;
     private static Dictionary<string,string> ZerosMap {get;set;} = null!;
@@ -51,6 +67,8 @@ class Money {
     }
 
     private static string Convert2n(string num) {
+        /*Converts a (string) 2-digit number to (string) words
+        e.g.: Input: "12", Output: "TWELVE"*/
         if (num.Length != 2){
             throw new ArgumentException("Input is not a 2-digit number");
         }
@@ -79,6 +97,8 @@ class Money {
     }
 
     private static string Convert3n(string num)
+    /*Converts a (string) 3-digit number to (string) words
+    e.g.: Input: "123", Output: "ONE HUNDRED AND TWENTY-THREE"*/
     {
         if (num.Length != 3)
         {
@@ -102,6 +122,8 @@ class Money {
     }
 
     private static string ConvertCents(string num)
+    /*Converts a 1 or 2-digit number to cents.
+    e.g.: Input: "16", Output: "SIXTEEN CENTS"*/
     {
         if (num.Length > 2){
             throw new ArgumentException("Please round number to 2 decimal places");
@@ -124,6 +146,8 @@ class Money {
     }
 
     private static string ConvertDollars(string num)
+    /*Converts any length(string) number to (string) words, with DOLLARS at end.
+    e.g.: Input: "123", Output: "ONE HUNDRED AND TWENTY-THREE DOLLARS"*/
     {
         bool ZerosMapCheck = false;
         int i = 0;
@@ -175,6 +199,8 @@ class Money {
     }
 
     public string ConvertMoney()
+    /*Converts any length(string) number with up to 2 decimal places to (string) words.
+    e.g.: Input: "24.13", Output: "TWENTY-FOUR DOLLARS AND THIRTEEN CENTS"*/
     {
         string[] words = Cash.Split('.');
         string dollars = ConvertDollars(words[0]);
@@ -197,6 +223,9 @@ class Money {
 class Setup
 {
     public static Dictionary<string, Dictionary<string,string>> StartMaps()
+    /*Finds maps from map.json and returns Dictionary of Dictionaries.
+    There should be 3 dictionaries named: "ones", "tens", and "zeros".
+    Check 'Problem Justification' Word doc for further explanation.*/
     {
         if (!File.Exists("map.json")){
             throw new FileNotFoundException("map.json is not found in bin folder");

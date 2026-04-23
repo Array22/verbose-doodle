@@ -10,7 +10,6 @@
         "7": "SEVEN",
         "8": "EIGHT",
         "9": "NINE",
-        "00": "",
         "10": "TEN",
         "11": "ELEVEN",
         "12": "TWELVE",
@@ -23,7 +22,7 @@
         "19": "NINETEEN"
     },
     "tens": {
-        "0": "",
+        "0": "ZERO",
         "1": "TEN",
         "2": "TWENTY",
         "3": "THIRTY",
@@ -35,7 +34,7 @@
         "9": "NINETY"
     },
     "zeros": {
-        "0": "",
+        "0": "ZERO",
         "3": "THOUSAND",
         "6": "MILLION",
         "9": "BILLION",

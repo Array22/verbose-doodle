@@ -12,7 +12,7 @@
     <p>Example: 1 => ONE DOLLAR</p>
     Enter
     <input id="user-input" placeholder="amount">
-    <button onclick="doThis()" id="input-run">run</button>
+    <button onclick="sendInput()" id="input-run">run</button>
     <div>
         Answer:
         <p id="response"></p>
@@ -20,15 +20,22 @@
 </main>
 </body>
 <script>
-    async function doThis(){
+    async function sendInput(){
         const inputAmount = document.querySelector("#user-input").value;
-        const response = await fetch("/money", {
+        const response = document.querySelector("#response");
+        const request = await fetch("/money", {
             method: "POST",
             headers:{"Content-Type":"application/json"},
             body: JSON.stringify({Amount: inputAmount})
         });
-        const result = await response.text()
-        document.querySelector("#response").innerText = result
+        const result = await request.text()
+        response.innerText = result;
+        if (request.ok){
+            response.style.color = "black"
+        } else {
+            response.style.color = "red"
+        }
+        
     };
 </script>
 </html>
