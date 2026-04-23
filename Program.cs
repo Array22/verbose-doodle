@@ -2,8 +2,9 @@
 
 // Input.TestFunction();
 
-var wallet = new Money("000000");
+var wallet = new Money("0.01");
 Console.WriteLine(wallet.ConvertMoney());
+
 
 // Money test = new() {Cash = "23"};
 // Console.WriteLine(test.Cents);
@@ -171,7 +172,14 @@ class Money {
         if (words.Length > 1)
         {
             string cents = ConvertCents(words[1]);
-            return $"{dollars} AND {cents}";
+            List<string> values = [];
+            if (dollars != "")
+            {
+                values.Add($"{dollars} AND");
+            }
+            values.Add(cents);
+            string response = string.Join(" ", values);
+            return response;
         }
         return dollars;
     }

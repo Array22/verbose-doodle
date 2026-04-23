@@ -2,18 +2,32 @@
 <html>
 <head>
     <title>Text to String</title>
+    <link href="style.css" rel="stylesheet"> 
 </head>
 <body>
-<h1>
-    Test
+<h1 class="tab">
+    Number to Cash Converter
 </h1>
-<main>
+<main class="main">
+    <p>Example: 1 => ONE DOLLAR</p>
     Enter
+    <input id="user-input">
+    <button onclick="doThis()" id="input-run">run</button>
+    <div>
+        Answer:
+        <p id="response" placeholder="response"></p>
+    </div>
 </main>
 </body>
 <script>
-    function doThis(){
-
-    }
+    async function doThis(){
+        const inputAmount = document.querySelector("#user-input").value;
+        const response = await fetch("/api/money", {
+            method: "POST",
+            headers:{"Content-Type":"text/plain"},
+            body: inputAmount
+        });
+        const result = await response.text()
+    };
 </script>
 </html>
