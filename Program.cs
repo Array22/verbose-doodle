@@ -227,10 +227,11 @@ class Setup
     There should be 3 dictionaries named: "ones", "tens", and "zeros".
     Check 'Problem Justification' Word doc for further explanation.*/
     {
-        if (!File.Exists("map.json")){
+        string path = Path.Combine(AppContext.BaseDirectory, "map.json");
+        if (!File.Exists(path)){
             throw new FileNotFoundException("map.json is not found in bin folder");
         }
-        var jsonObject = File.ReadAllText("map.json");
+        var jsonObject = File.ReadAllText(path);
         var NumMap = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string,string>>>(jsonObject)
             ?? throw new InvalidDataException("map.json missing or written in invalid format");
         return NumMap;
