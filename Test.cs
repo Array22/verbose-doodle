@@ -32,6 +32,8 @@ public class MoneyTests
 // --- Edge Cases ---
 [InlineData("0", "ZERO DOLLARS")]
 [InlineData("0.01", "ZERO DOLLARS AND ONE CENT")]
+[InlineData("00000.00", "ZERO DOLLARS AND ZERO CENTS")]
+[InlineData("00120.00", "ONE HUNDRED AND TWENTY DOLLARS AND ZERO CENTS")]
 
 public void ConvertMoney_ReturnCorrectWords(string input, string expected)
     {

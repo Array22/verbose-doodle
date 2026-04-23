@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-var wallet = new Money("1.50");
+var wallet = new Money("00120.00");
 Console.WriteLine(wallet.ConvertMoney());
 
 class Money {
@@ -152,6 +152,10 @@ class Money {
         if (words.Trim() == "ONE")
         {
             return "ONE DOLLAR";
+        }
+        if (words == "")
+        {
+            words = "ZERO";
         }
         return $"{words} DOLLARS";
     }
